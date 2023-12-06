@@ -35,9 +35,9 @@
     <widget class="QFrame" name="frame">
      <property name="geometry">
       <rect>
-       <x>1190</x>
+       <x>1160</x>
        <y>10</y>
-       <width>271</width>
+       <width>301</width>
        <height>421</height>
       </rect>
      </property>
@@ -55,7 +55,7 @@
        <rect>
         <x>20</x>
         <y>30</y>
-        <width>232</width>
+        <width>261</width>
         <height>361</height>
        </rect>
       </property>
@@ -112,12 +112,9 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="spin_Length">
-           <property name="decimals">
-            <number>1</number>
-           </property>
+          <widget class="QSpinBox" name="spin_Length">
            <property name="maximum">
-            <double>2000.000000000000000</double>
+            <number>500</number>
            </property>
           </widget>
          </item>
@@ -125,27 +122,6 @@
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_4"/>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_5">
-         <item>
-          <widget class="QLabel" name="label_Times">
-           <property name="text">
-            <string>Time</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="spin_Times">
-           <property name="maximum">
-            <number>10000</number>
-           </property>
-           <property name="singleStep">
-            <number>100</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -168,16 +144,23 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_7">
          <item>
-          <widget class="QPushButton" name="btnColor1">
+          <widget class="QPushButton" name="btn_Color1">
            <property name="text">
             <string>Color1</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="btnColor2">
+          <widget class="QPushButton" name="btn_Color2">
            <property name="text">
             <string>Color2</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="btn_Color3">
+           <property name="text">
+            <string>Color3</string>
            </property>
           </widget>
          </item>
@@ -197,7 +180,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="btnStart">
+        <widget class="QPushButton" name="btn_Start">
          <property name="text">
           <string>Start</string>
          </property>

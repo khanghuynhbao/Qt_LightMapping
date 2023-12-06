@@ -23,13 +23,12 @@ public:
 private slots:
     void on_spin_X_valueChanged(int arg1);
     void on_spin_Y_valueChanged(int arg1);
-    void on_spin_Length_valueChanged(double arg1);
-    void on_btnStart_clicked();
+    void on_spin_Length_valueChanged(int arg1);
+    void on_btn_Start_clicked();
     void on_spin_PenW_valueChanged(int arg1);
-    void on_spin_Times_valueChanged(int arg1);
-
-    void on_btnColor1_clicked();
-    void on_btnColor2_clicked();
+    void on_btn_Color1_clicked();
+    void on_btn_Color2_clicked();
+    void on_btn_Color3_clicked();
 
 private:
     void update_ui();

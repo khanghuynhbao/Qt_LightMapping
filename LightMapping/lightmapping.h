@@ -16,6 +16,7 @@
 #include <QVBoxLayout>
 #include <QTime>
 #include <QPolygon>
+#include <QOpenGLFunctions>
 
 class LightMapping : public QWidget
 {
@@ -27,17 +28,20 @@ public:
 //    QSize sizeHint() const Q_DECL_OVERRIDE;
 
     enum EffectType
-    {   type0,
-        type1, type2, type3 ,type4, type5, type6, type7, type8,
-        type9, type10, type11 ,type12, type13, type14, type15, type16
-    };
+    {   type0, type1, type2, type3 ,type4, type5, type6, type7};
 
 // diaglog btn color
-    void setColor1(QColor color) { mPen.setColor(color); }
-    QColor color1 () const { return mPen.color(); }
+    void setColor1(QColor color1){
+        mColor1 = color1.isValid() ? color1 : QColor(255, 0, 0);}
+    QColor color1() const { return mPen.color(); }
 
-    void setColor2(QColor color) { mPen.setColor(color); }
-    QColor color2 () const { return mPen.color(); }
+    void setColor2(QColor color2) {
+        mColor2 = color2.isValid() ? color2 : QColor(0, 255, 0);}
+    QColor color2() const { return mPen.color(); }
+
+    void setColor3(QColor color3) {
+        mColor3 = color3.isValid() ? color3 : QColor(0, 0, 255);}
+    QColor color3() const { return mPen.color(); }
 
 // set position
     void setPoint_X(int point_x) { mPoint_X = point_x; repaint();}
@@ -52,11 +56,10 @@ public:
     void setStart(bool start) { mStart = start; repaint();}
     bool start () const { return mStart;}
 
-    void setTimes(int times) { mTimes = times; repaint();}
-    int times () const { return mTimes;}
-
     void setPenW(int penW) { mPenW = penW; repaint();}
     int penW () const { return mPenW;}
+
+    void initializeTimers();
 
 protected:
    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
@@ -65,37 +68,46 @@ private:
     void changeEffect();
 
     void setupEffectDurations(int duration);
-    void initializeTimers();
-
 
     void updateEffectType1();
+    void updateEffectType2();
     void updateEffectType3();
     void updateEffectType5();
+    void updateEffectType4();
     void updateEffectType6();
 
-    void effect_type0(QPainter *painter);
-    void effect_type1(QPainter *painter); //
+    void effect_type0(QPainter *painter); // deafault
+    void effect_type1(QPainter *painter); // border
     void effect_type2(QPainter *painter); //
-    void effect_type3(QPainter *painter); //
-    void effect_type4(QPainter *painter); //
-    void effect_type5(QPainter *painter);
-    void effect_type6(QPainter *painter);
+    void effect_type3(QPainter *painter); // shadow
+    void effect_type4(QPainter *painter); // linear
+    void effect_type5(QPainter *painter); // rotate
+    void effect_type6(QPainter *painter); // conical
     void effect_type7(QPainter *painter);
-    void effect_type16(QPainter *painter);
     void effect(QPainter *painter);
 
     void calculatePoint(int posX, int posY);
     void calculatePointScale(int posX, int posY, float scale);
 
     void drawPyramid(QPainter *painter, int posX, int posY);
+    void drawShadow(QPainter *painter, int posX, int posY);
     void drawSixPyramid(QPainter *painter);
 
-    void discoloration(QPainter *event, QColor colorLeft, QColor colorRight, QColor colorBottom, QColor colorShadowLeft, QColor colorShadowRight, QColor colorShadowBottom);
     void drawPyramid_Color(QPainter *painter, int posX, int posY,QColor colorLeft, QColor colorRight, QColor colorBottom, QColor colorShadowLeft, QColor colorShadowRight, QColor colorShadowBottom);
     void drawSixPyramid_Color(QPainter *painter,QColor colorLeft, QColor colorRight, QColor colorBottom, QColor colorShadowLeft, QColor colorShadowRight, QColor colorShadowBottom);
+    void discoloration(QPainter *event, QColor colorLeft, QColor colorRight, QColor colorBottom, QColor colorShadowLeft, QColor colorShadowRight, QColor colorShadowBottom);
 
-    void drawPyramid_Gradient(QPainter *painter, int posX, int posY, QColor colorLeft, QColor colorRight, QColor colorBottom);
-    void drawSixPyramid_Gradients(QPainter *painter,QColor colorLeft, QColor colorRight, QColor colorBottom);
+    void drawPyramid_LinearGradient(QPainter *painter, int posX, int posY, QColor color1, QColor color2, QColor color3);
+    void drawSixPyramid_LinearGradients(QPainter *painter,QColor color1, QColor color2, QColor color3);
+    void discoloration_LinearGradient(QPainter *painter, QColor color1, QColor color2, QColor color3);
+
+    void drawPyramid_ConicalGradient(QPainter *painter, int posX, int posY, QColor color1, QColor color2, QColor color3);
+    void drawSixPyramid_ConicalGradients(QPainter *painter, QColor color1, QColor color2, QColor color3);
+    void discoloration_ConicalGradient(QPainter *painter, QColor color1, QColor color2, QColor color3);
+
+    void drawPyramid_RadialGradient(QPainter *painter, int posX, int posY, QColor color1, QColor color2, QColor color3);
+    void drawSixPyramid_RadialGradients(QPainter *painter, QColor color1, QColor color2, QColor color3);
+    void discoloration_RadialGradient(QPainter *event, QColor color1, QColor color2, QColor color3);
 
     void drawPyramid_Rotated(QPainter *painter, int posX, int posY, int rotationAngle);
     void drawSixPyramid_Rotated(QPainter *painter, int angle);
@@ -104,9 +116,6 @@ private:
     void drawPyramid_Border(QPainter *painter, int posX, int posY);
     void drawSixPyramid_Border(QPainter *painter);
 
-    void drawPyramid_Size2(QPainter *painter, int posX, int posY, float scaleLength);
-    void drawSixPyramid_Size2(QPainter *painter, float scaleLength);
-
 private:
     EffectType mEffect;
     QMap<EffectType, int> mEffectDurations;
@@ -114,20 +123,25 @@ private:
     int mEffectIndex;
     QVector<EffectType> mEffectsList;
 
+    QColor mColor1 = QColor(255, 0, 0);
+    QColor mColor2 = QColor(0, 255, 0);
+    QColor mColor3 = QColor(0, 0, 255);
+
     bool mStart = false;
-    int flag_change;
     int currentAngle = 0;
 
-    int lineIndex;
-    int countChangeColor;
-    int countChangeColor6;
+    int lineIndex = 0;
+    int countChangeColor = 0;
+    int countChangeLinear = 0;
+    int countChangeConical = 0;
+    int countChangeRadial = 0;
 
     QPainterPath pathLeft, pathRight, pathBottom;
     QPoint topPoint, leftPoint, rightPoint, centerPoint, topLeftPoint, topRightPoint, leftRightPoint;
+    QPoint topPoint2, leftPoint2, rightPoint2;
 
     int mPoint_X, mPoint_Y;
     float mSideLength;
-    int mTimes;
     QPen mPen;
     int mPenW;
 

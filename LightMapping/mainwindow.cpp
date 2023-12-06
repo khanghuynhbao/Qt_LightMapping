@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+    this->setStyleSheet("background-color: black;");
     ui->setupUi(this);
 
     update_ui();
@@ -25,7 +26,6 @@ void MainWindow::update_ui()
     this->ui->spin_X->setValue(this->ui->Lightmapping->point_x());
     this->ui->spin_Y->setValue(this->ui->Lightmapping->point_y());
     this->ui->spin_Length->setValue(this->ui->Lightmapping->sideLength());
-    this->ui->spin_Times->setValue(this->ui->Lightmapping->times());
     this->ui->spin_PenW->setValue(this->ui->Lightmapping->penW());
 }
 
@@ -42,39 +42,66 @@ void MainWindow::on_spin_Y_valueChanged(int point_y)
 }
 
 
-void MainWindow::on_spin_Length_valueChanged(double length)
+void MainWindow::on_spin_Length_valueChanged(int length)
 {
-    this->ui->Lightmapping->setSideLength(length);
+     this->ui->Lightmapping->setSideLength(length);
 }
-
-void MainWindow::on_btnStart_clicked()
-{
-    this->ui->Lightmapping->setStart(true);
-}
-
-
-void MainWindow::on_spin_Times_valueChanged(int times)
-{
-    this->ui->Lightmapping->setTimes(times);
-}
-
 
 void MainWindow::on_spin_PenW_valueChanged(int penW)
 {
     this->ui->Lightmapping->setPenW(penW);
 }
 
-
-void MainWindow::on_btnColor1_clicked()
+void MainWindow::on_btn_Start_clicked()
 {
-    QColor color = QColorDialog::getColor(ui->Lightmapping->color1(), this, "Select Color1");
-    this->ui->Lightmapping->setColor1(color);
+    this->ui->Lightmapping->setStart(true);
+    this->ui->Lightmapping->initializeTimers();
+}
+
+void MainWindow::on_btn_Color1_clicked()
+{
+    QString currentStylesheet = this->styleSheet();
+    this->setStyleSheet("");
+    QColorDialog colorDialog(ui->Lightmapping->color1(), this);
+    colorDialog.setStyleSheet("background-color: white;");
+    this->setStyleSheet(currentStylesheet);
+
+    QColor color1 = colorDialog.getColor("Select Color1");
+    if (color1.isValid()) {
+        ui->Lightmapping->setColor1(color1);
+        ui->Lightmapping->update();
+    }
 }
 
 
-void MainWindow::on_btnColor2_clicked()
+void MainWindow::on_btn_Color2_clicked()
 {
-    QColor color = QColorDialog::getColor(ui->Lightmapping->color2(), this, "Select Color2");
-    this->ui->Lightmapping->setColor2(color);
+    QString currentStylesheet = this->styleSheet();
+    this->setStyleSheet("");
+    QColorDialog colorDialog(ui->Lightmapping->color1(), this);
+    colorDialog.setStyleSheet("background-color: white;");
+    this->setStyleSheet(currentStylesheet);
+
+    QColor color2 = colorDialog.getColor("Select Color2");
+    if (color2.isValid()) {
+        ui->Lightmapping->setColor1(color2);
+        ui->Lightmapping->update();
+    }
 }
+
+void MainWindow::on_btn_Color3_clicked()
+{
+    QString currentStylesheet = this->styleSheet();
+    this->setStyleSheet("");
+    QColorDialog colorDialog(ui->Lightmapping->color1(), this);
+    colorDialog.setStyleSheet("background-color: white;");
+    this->setStyleSheet(currentStylesheet);
+
+    QColor color3 = colorDialog.getColor("Select Color3");
+    if (color3.isValid()) {
+        ui->Lightmapping->setColor1(color3);
+        ui->Lightmapping->update();
+    }
+}
+
 
